@@ -18,10 +18,10 @@ class GPTDatasetV1(Dataset):
             self.input_ids.append(torch.tensor(input_chunk))
             self.target_ids.append(torch.tensor(target_chunk))
 
-    def __len__(self):
+    def __len__(self):  # returns total num of rows in a dataset
         return len(self.input_ids)
 
-    def __getitem__(self, idx):
+    def __getitem__(self, idx):  # returns a single row from dataset
         return self.input_ids[idx], self.target_ids[idx]
 
 
@@ -33,14 +33,17 @@ def create_dataloader_v1(
 
     # Create dataset
     dataset = GPTDatasetV1(txt, tokenizer, max_length, stride)
+    print("dataset >>", dataset)
 
     # Create dataloader
     dataloader = DataLoader(
         dataset,
         batch_size=batch_size,
         shuffle=shuffle,
+        # drop_last=True drops the last batch if it is shorter than the
+        # specified batch_size to prevent loss spikes during training.
         drop_last=drop_last,
-        num_workers=num_workers,
+        num_workers=num_workers,  # The number of CPU processes to use for preprocessing
     )
 
     return dataloader
@@ -61,7 +64,9 @@ dataloader = create_dataloader_v1(
 )
 data_iter = iter(dataloader)
 first_batch = next(data_iter)
+second_batch = next(data_iter)
 print(first_batch)
+print(second_batch)
 
 
 # token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
