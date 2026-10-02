@@ -9,8 +9,8 @@ model = Neuralnetwork(
 )  # this DS has 2 features and 2 classes
 
 optimizer = torch.optim.SGD(
-    model.parameters(), lr=0.5
-)  # the optimizer needs to know which params to optimize
+    model.parameters(), lr=0.5  # lr = learning rate
+)  # the optimizer needs to know which params to optimize #  stochastic gradient descent = SGD
 
 # total_params = sum(p.numel() for p in model.parameters())
 # print("total params >> ", total_params)
@@ -22,7 +22,7 @@ for epoch in range(num_epochs):
     for batch_idx, (features, labels) in enumerate(train_loader):
         logits = model(features)
 
-        loss = F.cross_entropy(logits, labels)
+        loss = F.cross_entropy(logits, labels)  # how wrong is the prediction?
 
         optimizer.zero_grad()  # sets the gradients from prev round to 0 to prevent unintended gradient accumulation
         loss.backward()  # computes the gradients of the loss given the model params
