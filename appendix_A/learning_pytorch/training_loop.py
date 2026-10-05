@@ -48,3 +48,6 @@ print(outputs)
 torch.set_printoptions(sci_mode=False)  # scientific notation to false
 probas = torch.softmax(outputs, dim=1)
 print("probas >> ", probas)
+
+predictions = torch.argmax(probas, dim=1)
+print(predictions)
