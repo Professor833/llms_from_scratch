@@ -1,7 +1,7 @@
 import torch.nn.functional as F
 import torch
 from .neural_network import Neuralnetwork
-from .data_set_creation import train_loader
+from .data_set_creation import train_loader, x_train
 
 torch.manual_seed(123)
 model = Neuralnetwork(
@@ -35,3 +35,16 @@ for epoch in range(num_epochs):
         )
 
         model.eval()
+
+model.eval()
+with torch.no_grad():
+    outputs = model(x_train)
+print(outputs)
+
+
+# To obtain the class membership probabilities, we can then use PyTorch’s softmax
+# function:
+
+torch.set_printoptions(sci_mode=False)  # scientific notation to false
+probas = torch.softmax(outputs, dim=1)
+print("probas >> ", probas)
